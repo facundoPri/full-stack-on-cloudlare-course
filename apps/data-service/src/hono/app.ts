@@ -5,24 +5,35 @@ import { Hono } from 'hono';
 
 export const App = new Hono<{ Bindings: Env }>();
 
+App.get('/do/:name', async (c) => {
+	const name = c.req.param('name');
+	const doId = c.env.EVALUATION_SCHEDULER.idFromName(name);
+	const stub = c.env.EVALUATION_SCHEDULER.get(doId);
+
+	await stub.increment();
+	const count = await stub.getCount();
+
+	return c.json({ count });
+});
+
 App.get('/:id', async (c) => {
 	const id = c.req.param('id');
 
 	const linkInfo = await getRoutingDestinations(c.env, id);
 	if (!linkInfo) {
-		return c.text("Destination not found", 404);
+		return c.text('Destination not found', 404);
 	}
 
 	const cfHeaders = cloudflareInfoSchema.safeParse(c.req.raw.cf);
 	if (!cfHeaders.success) {
-		return c.text("Invalid Cloudflare headers", 500);
+		return c.text('Invalid Cloudflare headers', 500);
 	}
 
-	const headers = cfHeaders.data
+	const headers = cfHeaders.data;
 	const destination = getDestinationForCountry(linkInfo, headers.country);
 
 	const queueMessage: LinkClickMessageType = {
-		type: "LINK_CLICK",
+		type: 'LINK_CLICK',
 		data: {
 			id: id,
 			country: headers.country,
@@ -32,10 +43,8 @@ App.get('/:id', async (c) => {
 			longitude: headers.longitude,
 			timestamp: new Date().toISOString(),
 		},
-	}
-	c.executionCtx.waitUntil(
-		c.env.QUEUE.send(queueMessage)
-	)
+	};
+	c.executionCtx.waitUntil(c.env.QUEUE.send(queueMessage));
 
 	return c.redirect(destination, 301);
 });

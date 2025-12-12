@@ -4,6 +4,7 @@ import { initDatabase } from '@repo/data-ops/database';
 import { QueueMessageSchema } from '@repo/data-ops/zod-schema/queue';
 import { handleLinkClickEvent } from './queue-handlers/link-clicks';
 export { DestinationEvaluationWorkflow } from './workflows/destination-evaluation-workflow';
+export { EvaluationScheduler } from './durable-objects/evaluation-scheduler';
 
 export default class DataService extends WorkerEntrypoint<Env> {
 	constructor(ctx: ExecutionContext, env: Env) {
@@ -19,12 +20,12 @@ export default class DataService extends WorkerEntrypoint<Env> {
 		for (const message of batch.messages) {
 			const parseEvent = QueueMessageSchema.safeParse(message.body);
 			if (!parseEvent.success) {
-				console.error("Invalid queue message", parseEvent.error);
-				return
+				console.error('Invalid queue message', parseEvent.error);
+				return;
 			}
 
 			const event = parseEvent.data;
-			if (event.type === "LINK_CLICK") {
+			if (event.type === 'LINK_CLICK') {
 				await handleLinkClickEvent(this.env, event);
 			}
 		}
