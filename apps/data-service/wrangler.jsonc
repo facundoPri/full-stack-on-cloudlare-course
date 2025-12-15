@@ -15,6 +15,12 @@
 	},
 	"env": {
 		"stage": {
+			"routes": [
+				{
+					"custom_domain": true,
+					"pattern": "go.smartlinks.stage.facundopri.com"
+				}
+			],
 			"browser": {
 				"binding": "VIRTUAL_BROWSER"
 			},
@@ -93,6 +99,12 @@
 			]
 		},
 		"production": {
+			"routes": [
+				{
+					"custom_domain": true,
+					"pattern": "go.smartlinks.facundopri.com"
+				}
+			],
 			"browser": {
 				"binding": "VIRTUAL_BROWSER"
 			},
