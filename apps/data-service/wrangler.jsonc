@@ -17,7 +17,7 @@
 		"stage": {
 			"routes": [
 				{
-					"zone_name": "smartlinks.facundopri.com",
+					"zone_name": "facundopri.com",
 					"pattern": "stage.smartlinks.facundopri.com/r/*"
 				}
 			],
@@ -101,7 +101,7 @@
 		"production": {
 			"routes": [
 				{
-					"zone_name": "smartlinks.facundopri.com",
+					"zone_name": "facundopri.com",
 					"pattern": "smartlinks.facundopri.com/r/*"
 				}
 			],
