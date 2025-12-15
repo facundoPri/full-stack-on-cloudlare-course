@@ -19,7 +19,7 @@
       "routes":[
         {
           "custom_domain": true,
-          "pattern": "smartlinks.stage.facundopri.com"
+          "pattern": "stage.smartlinks.facundopri.com"
         }
       ],
       "d1_databases": [
