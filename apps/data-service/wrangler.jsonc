@@ -17,8 +17,8 @@
 		"stage": {
 			"routes": [
 				{
-					"custom_domain": true,
-					"pattern": "go.smartlinks.stage.facundopri.com"
+					"zone_name": "smartlinks.facundopri.com",
+					"pattern": "stage.smartlinks.facundopri.com/r/*"
 				}
 			],
 			"browser": {
@@ -101,8 +101,8 @@
 		"production": {
 			"routes": [
 				{
-					"custom_domain": true,
-					"pattern": "go.smartlinks.facundopri.com"
+					"zone_name": "smartlinks.facundopri.com",
+					"pattern": "smartlinks.facundopri.com/r/*"
 				}
 			],
 			"browser": {
